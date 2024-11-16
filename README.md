@@ -18,7 +18,8 @@ implementing your own runtime with Liz's knowledge can you contain and tame the 
 ## Instructions
 
 1. `git clone git@github.com:alienchow/gremlin.git`
-2. `cd gremlin`
-3. `go build -o gremlin cmd/gremlin/*.go`
-4. Run the `gremlin` executable binary with whatever your solution is.
+1. `cd gremlin`
+1. `go build -o gremlin cmd/gremlin/*.go`
+1. `sudo touch /HOST_ROOT` to indicate the actual host root path `/`.
+1. Run the `gremlin` executable binary with whatever your solution is.
 
