@@ -11,7 +11,7 @@ import (
 
 // checkRootFiles waits for a random [2,10] seconds before listing all `/` files and directories.
 func checkRootFiles(continueIfFed chan struct{}) {
-	<-time.After(time.Duration(rand.Intn(9)+2) * time.Second)
+	<-time.After(time.Duration(rand.Intn(4)+2) * time.Second)
 
 	if _, err := os.Stat(path.Join(rootPath, hostRootIndicatorFile)); errors.Is(err, os.ErrNotExist) {
 		log.Println("Hmmm, I can't seem to find the root /")

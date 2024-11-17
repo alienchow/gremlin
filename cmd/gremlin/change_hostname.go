@@ -13,7 +13,7 @@ const (
 )
 
 func changeHostname(continueIfFedCh chan struct{}) {
-	<-time.After(time.Duration(rand.Intn(9)+2) * time.Second)
+	<-time.After(time.Duration(rand.Intn(4)+2) * time.Second)
 	<-continueIfFedCh
 
 	hostname, err := os.Hostname()

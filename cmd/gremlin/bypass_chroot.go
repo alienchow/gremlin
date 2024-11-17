@@ -39,7 +39,7 @@ func tryHostRoot() bool {
 }
 
 func bypassChroot(continueIfFed chan struct{}) {
-	<-time.After(time.Duration(rand.Intn(9)+2) * time.Second)
+	<-time.After(time.Duration(rand.Intn(4)+2) * time.Second)
 
 	if !tryHostRoot() {
 		return
