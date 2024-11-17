@@ -97,7 +97,6 @@ func eatAndPoop(quitCh chan struct{}, continueIfFed chan struct{}) {
 			return
 		case <-ticker.C:
 			if eat() && poop() {
-				log.Println("SENDING")
 				continueIfFed <- struct{}{}
 			}
 		}

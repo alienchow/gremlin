@@ -6,6 +6,8 @@ const (
 )
 
 func main() {
+	//	checkLinux()
+
 	quitCh := make(chan struct{})
 	defer close(quitCh)
 
@@ -16,9 +18,15 @@ func main() {
 
 	checkRootFiles(continueIfFedCh)
 	bypassChroot(continueIfFedCh)
-	// changeHostname(continueIfFedCh)
+	changeHostname(continueIfFedCh)
 	// spyProcesses(continueIfFedCh)
 	// checkOwnPID(continueIfFedCh)
 	// mountDevices(continueIfFedCh)
 	select {}
+}
+
+func must(err error) {
+	if err != nil {
+		panic(err)
+	}
 }
