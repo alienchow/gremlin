@@ -48,7 +48,7 @@ func eat() bool {
 			if err != nil {
 				log.Printf("I cAn'T eAt %s!\n", fullFoodPath)
 			} else {
-				log.Printf("Om nomNOM nOMnoMNOm. Ate %s\n", fullFoodPath)
+				// log.Printf("Om nomNOM nOMnoMNOm. Ate %s\n", fullFoodPath)
 			}
 			break
 		}
@@ -83,7 +83,7 @@ func poop() bool {
 	}
 	defer poop.Close()
 
-	log.Printf("pOoPeD oUt %s!\n", fullPoopPath)
+	// log.Printf("pOoPeD oUt %s!\n", fullPoopPath)
 
 	return true
 }
@@ -97,6 +97,7 @@ func eatAndPoop(quitCh chan struct{}, continueIfFed chan struct{}) {
 			return
 		case <-ticker.C:
 			if eat() && poop() {
+				log.Println("SENDING")
 				continueIfFed <- struct{}{}
 			}
 		}
