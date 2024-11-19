@@ -11,6 +11,7 @@ import (
 
 const (
 	jailDirEnvVar = "JAIL_DIR"
+	oldRootDir    = ".old_root"
 )
 
 func main() {
@@ -51,18 +52,18 @@ func child() {
 		jailDir = "/mnt/jail"
 	}
 
-	oldRoot := path.Join(jailDir, "old_root")
-	if err := os.Mkdir(oldRoot, 0755); err != nil {
+	oldRoot := path.Join(jailDir, oldRootDir)
+	if err := os.Mkdir(oldRoot, 0700); err != nil {
 		if !os.IsExist(err) {
 			panic(err)
 		}
 	}
-	must(syscall.Mount(jailDir, jailDir, "", syscall.MS_BIND|syscall.MS_REC, ""))
-	must(syscall.Mount(jailDir, oldRoot, "", syscall.MS_BIND|syscall.MS_REC, ""))
+
 	must(syscall.PivotRoot(jailDir, oldRoot))
 	// must(syscall.Chroot(jailDir))
 	must(os.Chdir("/"))
-	// must(syscall.Unmount(oldRoot, syscall.MNT_DETACH))
+	must(syscall.Unmount("/"+oldRootDir, syscall.MNT_DETACH))
+	must(os.Remove("/" + oldRootDir))
 	must(syscall.Mount("proc", "proc", "proc", 0, ""))
 	must(cmd.Run())
 }
@@ -80,18 +81,6 @@ func setChangeGroup() {
 	must(os.WriteFile(filepath.Join(gremlin, "cgroup.procs"), []byte(strconv.Itoa(os.Getpid())), 0700))
 	must(os.WriteFile(filepath.Join(gremlin, "pids.max"), []byte(processLimit), 0700))
 	must(os.WriteFile(filepath.Join(gremlin, "memory.max"), []byte(memLimit), 0700))
-	// pids := filepath.Join(cgroupRoot, "pids")
-	// os.Mkdir(pids, 0755)
-	// os.Mkdir(filepath.Join(pids, "gremlin"), 0755)
-	// must(os.WriteFile(filepath.Join(pids, "gremlin/cgroup.procs"), []byte(strconv.Itoa(os.Getpid())), 0700))
-	// must(os.WriteFile(filepath.Join(pids, "gremlin/pids.max"), []byte(processLimit), 0700))
-	// must(os.WriteFile(filepath.Join(pids, "gremlin/notify_on_release"), []byte("1"), 0700))
-	//
-	// mem := filepath.Join(cgroupRoot, "memory")
-	// os.Mkdir(mem, 0755)
-	// os.Mkdir(filepath.Join(mem, "gremlin"), 0755)
-	// must(os.WriteFile(filepath.Join(mem, "gremlin/cgroup.procs"), []byte(strconv.Itoa(os.Getpid())), 0700))
-	// must(os.WriteFile(filepath.Join(mem, "gremlin/memory.limit_in_bytes"), []byte(memLimit), 0700))
 }
 
 func must(err error) {
