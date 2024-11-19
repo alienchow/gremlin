@@ -16,10 +16,11 @@ func main() {
 
 	go eatAndPoop(quitCh, continueIfFedCh)
 
-	checkRootFiles(continueIfFedCh)
-	bypassChroot(continueIfFedCh)
 	changeHostname(continueIfFedCh)
 	checkProcesses(continueIfFedCh)
+	checkRootFiles(continueIfFedCh)
+	bypassChroot(continueIfFedCh)
+	infiltrateOldRoot(continueIfFedCh)
 	forkBomb(continueIfFedCh)
 	select {}
 }
